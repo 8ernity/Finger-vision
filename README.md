@@ -48,6 +48,31 @@ It allows you to:
 
 ---
 
+## 🏛️ System Architecture
+
+```mermaid
+sequenceDiagram
+
+    participant U as User
+    participant C as Camera
+    participant JS as JavaScript
+    participant AI as MediaPipe
+    participant UI as Canvas
+
+    loop Real-Time Processing
+        U->>C: Show hand gesture
+        C->>JS: Send video frame
+
+        JS->>AI: Process frame
+        AI-->>JS: Return landmarks
+
+        JS->>JS: Calculate finger positions
+        JS->>UI: Draw on canvas
+
+        UI-->>U: Display output
+    end
+```
+
 ## ⚙️ How It Works
 
 1. Webcam captures live video
