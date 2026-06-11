@@ -6,7 +6,7 @@
   <p><b>Real-Time Hand Tracking & Computer Vision Web Application</b></p>
 
   <p>
-    <a href="https://8ernity.github.io/finger-vision/"><strong>Explore Live Demo »</strong></a>
+    <a href="https://finger-vision-dt5k.vercel.app/"><strong>Explore Live Demo »</strong></a>
     <br />
     <br />
     <a href="#features">Features</a>
