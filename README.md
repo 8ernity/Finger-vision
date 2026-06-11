@@ -1,70 +1,54 @@
-<h1 style="margin:0;">
-  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/270b/512.gif" alt="✋" width="38" style="vertical-align:-4px;">
- FingerVision — Real-Time Hand Tracking
-  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="38" style="vertical-align:-4px;">
-</h1>
+<div align="center">
+  <h1 style="margin:0;">
+    <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/270b/512.gif" alt="✋" width="48" style="vertical-align:-8px;">
+    FingerVision
+  </h1>
+  <p><b>Real-Time Hand Tracking & Computer Vision Web Application</b></p>
 
-
-<p align="center">
-  <b>A futuristic web-based hand tracking system powered by AI</b><br>
-  Detect fingers • Track motion • Draw in air — all from your webcam
-</p>
-
----
-
-<h2 style="margin:0;">
-  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f3ac/512.gif" alt="🎬" width="28" style="vertical-align:-4px;">
-  Live Demo
-</h2>
-
-👉 https://8ernity.github.io/finger-vision/
-
----
-
-##  
-<h2 style="margin:0;">
-  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f9e0/512.gif" alt="🧠" width="25" style="vertical-align:-4px;">
-  What is FingerVision?
-</h2>
-
-FingerVision is a **real-time hand tracking web app** that uses computer vision to detect and track your fingers through a webcam.
-
-It allows you to:
-
-* Interact with your screen using gestures
-* Track fingertip positions
-* Draw in the air like magic ✨
+  <p>
+    <a href="https://8ernity.github.io/finger-vision/"><strong>Explore Live Demo »</strong></a>
+    <br />
+    <br />
+    <a href="#features">Features</a>
+    ·
+    <a href="#system-architecture">Architecture</a>
+    ·
+    <a href="#project-structure">Project Structure</a>
+    ·
+    <a href="#getting-started">Getting Started</a>
+  </p>
+</div>
 
 ---
 
-<h2 style="margin:0;">
-  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.gif" alt="✨" width="25" style="vertical-align:-4px;">
-  Features
-</h2>
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f9e0/512.gif" alt="🧠" width="25" style="vertical-align:-4px;"> What is FingerVision?
 
+FingerVision is a highly interactive, futuristic **real-time hand tracking web application** powered by AI. It utilizes device webcams and computer vision (via MediaPipe) to detect, map, and track hands and individual fingers with zero noticeable latency.
 
-* 🖐 **Real-time Hand Tracking** using MediaPipe
-* 🔢 **Finger Counting** (supports both hands)
-* 🎯 **Fingertip Coordinate Tracking**
-* ✏️ **Air Drawing Mode**
-* 🧭 **Left & Right Hand Detection**
-* 🎨 **Futuristic UI Design**
-* ⚡ **Ultra-smooth real-time performance**
+Whether you want to build gesture-controlled interfaces, AR/VR experiments, or simply draw in thin air like magic, FingerVision provides the foundational computer vision logic and a gorgeous, glassmorphic UI to get started.
 
 ---
 
-<h2 style="margin:0;">
-  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6e0\_fe0f/512.gif" alt="🛠️" width="28" style="vertical-align:-4px;">
-  Tech Stack
-</h2>
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.gif" alt="✨" width="25" style="vertical-align:-4px;"> Features
 
+- 🖐 **Real-time AI Tracking:** Utilizes MediaPipe Hands to instantly detect 21 3D landmarks per hand.
+- 🔢 **Intelligent Finger Counting:** Dynamically calculates which fingers are extended on both left and right hands.
+- 🎯 **Precision Coordinates:** Displays live X/Y tracking percentages for your index fingertips.
+- ✏️ **Air Drawing Mode:** Toggle a drawing mode to paint on a digital canvas using just your finger in the air.
+- 🎨 **Modern Cyber-Aesthetics:** Built with a stunning dark-mode UI, custom glowing elements, and responsive data panels.
+- ⚡ **Optimized Performance:** Runs entirely in the browser using WebGL acceleration—no server processing required.
 
-| Technology      | Purpose             |
-| --------------- | ------------------- |
-| HTML5           | Structure           |
-| CSS3            | UI & Animations     |
-| JavaScript      | Logic & Interaction |
-| MediaPipe Hands | AI Hand Tracking    |
+---
+
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6e0_fe0f/512.gif" alt="🛠️" width="28" style="vertical-align:-4px;"> Tech Stack
+
+| Technology | Purpose |
+| :--- | :--- |
+| **Vite** | Modern, blazing-fast frontend build tool & dev server |
+| **Vanilla JS (ES6+)** | Core application logic and DOM manipulation |
+| **HTML5 & Canvas API** | Rendering camera streams, skeletal overlays, and digital drawing |
+| **CSS3** | Layouts, grid systems, glassmorphism, and animations |
+| **MediaPipe Hands** | Pre-trained Machine Learning models for hand tracking |
 
 ---
 
@@ -93,62 +77,73 @@ sequenceDiagram
     end
 ```
 
-<h2 align="left">
-  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙️" width="30" height="30" align="center">
-  &nbsp;<b>How It Works</b>
-</h2>
-
-
-1. Webcam captures live video
-2. MediaPipe detects hand landmarks (21 key points)
-3. JavaScript processes coordinates
-4. UI renders tracking + drawing in real-time
+### <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙️" width="25" style="vertical-align:-4px;"> How It Works
+1. The **Webcam** captures a live high-definition video stream.
+2. The stream is piped into **MediaPipe**, which infers 21 distinct 3D landmarks (joints and fingertips) per hand.
+3. Our custom **JavaScript** mathematically calculates whether fingers are folded or extended based on joint geometry.
+4. The **Canvas UI** layers a visual skeleton and dynamic glowing data directly over the mirrored video feed in real time.
 
 ---
 
-<h2 style="margin:0;">
-  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4e6/512.gif" alt="📦" width="28" style="vertical-align:-4px;">
-  Run Locally
-</h2>
+## 📂 Project Structure
 
+Following modern web development best practices, the project logic is modularized for easy maintenance and scalability:
 
+```text
+Finger-vision/
+├── index.html        # Main entry point and structural HTML layout
+├── style.css         # All UI styling, animations, and responsive grids
+├── main.js           # Core JS: Camera setup, AI processing, Canvas drawing
+├── package.json      # NPM dependencies and Vite build scripts
+└── README.md         # Project documentation
+```
+
+---
+
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4e6/512.gif" alt="📦" width="28" style="vertical-align:-4px;"> Getting Started
+
+This project uses **Vite** for local development.
+
+### 1. Clone the repository
 ```bash
 git clone https://github.com/8ernity/finger-vision.git
 cd finger-vision
 ```
 
-Then open `index.html` in your browser.
+### 2. Install dependencies
+Ensure you have Node.js installed, then run:
+```bash
+npm install
+```
+
+### 3. Start the development server
+```bash
+npm run dev
+```
+Navigate to `http://localhost:5173` in your browser. The app will ask for camera permissions to begin tracking.
+
+### 4. Build for Production
+```bash
+npm run build
+```
+This will compile and minify all assets into a `dist/` directory, ready to be deployed to Vercel, Netlify, or GitHub Pages.
 
 ---
 
-<h2 style="margin:0;">
-  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f3af/512.gif" alt="🎯" width="28" style="vertical-align:-4px;">
-  Use Cases
-</h2>
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f3af/512.gif" alt="🎯" width="28" style="vertical-align:-4px;"> Use Cases & Future Potential
 
-
-* Gesture-based UI interaction
-* Virtual drawing / teaching tools
-* AR/VR experimentation
-* Computer vision learning projects
-
----
-
-## 🔮 Future Enhancements
-
-* 🤖 AI gesture commands (click, scroll, zoom)
-* 🎮 Gesture-controlled games
-* 🧠 ML-based gesture recognition
-* 📱 Mobile optimization
+- **Gesture-based UI interaction:** Scroll pages, click buttons, or navigate interfaces without touching a mouse.
+- **Virtual Whiteboards:** Presenters and teachers can draw on screens seamlessly.
+- **AR/VR Experimentation:** A lightweight alternative to physical VR controllers.
+- **Sign Language Recognition:** Can be expanded into a Machine Learning pipeline to interpret complex gestures.
 
 ---
 
 ## 📜 License
 
-MIT License — free to use and modify.
+Distributed under the **MIT License**. Free to use, modify, and distribute.
 
----
-
-<p align="center">
-  Built with ❤️ using Computer Vision
-</p>
+<div align="center">
+  <br />
+  <p>Built with ❤️ using Computer Vision</p>
+</div>
