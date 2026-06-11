@@ -1,0 +1,26 @@
+{
+  "name": "finger-vision",
+  "version": "1.0.0",
+  "description": "<h1 style=\"margin:0;\">\r   <img src=\"https://fonts.gstatic.com/s/e/notoemoji/latest/270b/512.gif\" alt=\"✋\" width=\"38\" style=\"vertical-align:-4px;\">\r  FingerVision — Real-Time Hand Tracking\r   <img src=\"https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif\" alt=\"🚀\" width=\"38\" style=\"vertical-align:-4px;\">\r </h1>",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/8ernity/Finger-vision.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/8ernity/Finger-vision/issues"
+  },
+  "homepage": "https://github.com/8ernity/Finger-vision#readme",
+  "devDependencies": {
+    "vite": "^8.0.16"
+  }
+}
