@@ -164,9 +164,9 @@ const GlowCard: React.FC<GlowCardProps> = ({
         ref={cardRef}
         data-glow
         style={getInlineStyles()}
-        className={\`
-          \${getSizeClasses()}
-          \${!customSize ? 'aspect-[3/4]' : ''}
+        className={`
+          ${getSizeClasses()}
+          ${!customSize ? 'aspect-[3/4]' : ''}
           rounded-2xl 
           relative 
           grid 
@@ -175,8 +175,8 @@ const GlowCard: React.FC<GlowCardProps> = ({
           p-4 
           gap-4 
           backdrop-blur-[5px]
-          \${className}
-        \`}
+          ${className}
+        `}
       >
         <div ref={innerRef} data-glow></div>
         {children}

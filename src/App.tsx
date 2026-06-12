@@ -251,7 +251,7 @@ export default function App() {
           <div className="logo-icon">✋</div>
           <div className="logo-text">Finger<span>Vision</span></div>
         </div>
-        <div className={\`status-badge \${isTracking ? 'active' : ''}\`}>
+        <div className={`status-badge ${isTracking ? 'active' : ''}`}>
           <div className="status-dot"></div>
           <span>{isTracking ? 'Tracking' : 'Standby'}</span>
         </div>
@@ -270,8 +270,8 @@ export default function App() {
             <canvas ref={trailCanvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', transform: 'scaleX(-1)', zIndex: 3, pointerEvents: 'none' }}></canvas>
             <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', transform: 'scaleX(-1)', zIndex: 2 }}></canvas>
 
-            <div className={\`draw-indicator \${drawMode ? 'active' : ''}\`}>✏ Draw Mode</div>
-            <div className={\`no-hand \${noHand ? 'show' : ''}\`}>No hand detected</div>
+            <div className={`draw-indicator ${drawMode ? 'active' : ''}`}>✏ Draw Mode</div>
+            <div className={`no-hand ${noHand ? 'show' : ''}`}>No hand detected</div>
 
             {!isTracking && !isLoading && (
               <div id="splash" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', zIndex: 10, background: 'rgba(5,8,16,0.9)', backdropFilter: 'blur(8px)' }}>
@@ -294,7 +294,7 @@ export default function App() {
           <GlowCard customSize className="card" glowColor="blue">
             <div className="card-label">Controls</div>
             <div className="controls" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px' }}>
-              <button className={\`btn-control \${drawMode ? 'active' : ''}\`} disabled={!isTracking} onClick={() => setDrawMode(!drawMode)}>
+              <button className={`btn-control ${drawMode ? 'active' : ''}`} disabled={!isTracking} onClick={() => setDrawMode(!drawMode)}>
                 <Pencil size={18} /> {drawMode ? 'Disable Draw Mode' : 'Enable Draw Mode'}
               </button>
               <button className="btn-control" disabled={!isTracking} onClick={clearCanvas}>
@@ -327,7 +327,7 @@ export default function App() {
             <div className="finger-states">
               {['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'].map((f, i) => (
                 <div key={f} className="finger-pip">
-                  <div className={\`finger-bar \${leftUI.bars[i] ? 'up' : ''}\`}></div>
+                  <div className={`finger-bar ${leftUI.bars[i] ? 'up' : ''}`}></div>
                   <div className="finger-name">{f}</div>
                 </div>
               ))}
@@ -346,7 +346,7 @@ export default function App() {
             <div className="finger-states">
               {['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'].map((f, i) => (
                 <div key={f} className="finger-pip">
-                  <div className={\`finger-bar right-bar \${rightUI.bars[i] ? 'up' : ''}\`}></div>
+                  <div className={`finger-bar right-bar ${rightUI.bars[i] ? 'up' : ''}`}></div>
                   <div className="finger-name">{f}</div>
                 </div>
               ))}
