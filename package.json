@@ -15,12 +15,21 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-
   "bugs": {
     "url": "https://github.com/8ernity/Finger-vision/issues"
   },
   "homepage": "https://github.com/8ernity/Finger-vision#readme",
   "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.3",
     "vite": "^8.0.16"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.18.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tailwind-merge": "^3.6.0"
   }
 }
