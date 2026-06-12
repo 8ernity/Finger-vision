@@ -28,8 +28,9 @@
 </header>
 
 <main>
-  <!-- Camera Panel -->
-  <div class="camera-panel" id="cameraPanel">
+  <div class="left-column" style="display: flex; flex-direction: column; gap: 24px;">
+    <!-- Camera Panel -->
+    <div class="camera-panel" id="cameraPanel">
     <div class="corner corner-tl"></div>
     <div class="corner corner-tr"></div>
     <div class="corner corner-bl"></div>
@@ -55,6 +56,24 @@
       <div class="spinner"></div>
       <div class="loading-text">Loading MediaPipe...</div>
     </div>
+  </div>
+
+    <!-- Controls -->
+    <div class="card">
+      <div class="card-label">Controls</div>
+      <div class="controls" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+        <button class="btn-control" id="btnDraw" disabled>
+          <span>✏️</span> Enable Draw Mode
+        </button>
+        <button class="btn-control" id="btnClear" disabled>
+          <span>🗑️</span> Clear Canvas
+        </button>
+        <button class="btn-control" id="btnReset">
+          <span>🔄</span> Restart Camera
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <!-- Sidebar -->
@@ -114,22 +133,6 @@
         <div class="finger-pip"><div class="finger-bar right-bar" id="rbar-middle"></div><div class="finger-name">Middle</div></div>
         <div class="finger-pip"><div class="finger-bar right-bar" id="rbar-ring"></div><div class="finger-name">Ring</div></div>
         <div class="finger-pip"><div class="finger-bar right-bar" id="rbar-pinky"></div><div class="finger-name">Pinky</div></div>
-      </div>
-    </div>
-
-    <!-- Controls -->
-    <div class="card">
-      <div class="card-label">Controls</div>
-      <div class="controls">
-        <button class="btn-control" id="btnDraw" disabled>
-          <span>✏️</span> Enable Draw Mode
-        </button>
-        <button class="btn-control" id="btnClear" disabled>
-          <span>🗑️</span> Clear Canvas
-        </button>
-        <button class="btn-control" id="btnReset">
-          <span>🔄</span> Restart Camera
-        </button>
       </div>
     </div>
 
