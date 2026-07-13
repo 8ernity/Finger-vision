@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GlowCard } from './components/ui/spotlight-card';
-import { Pencil, Trash2, RefreshCw, Hand } from 'lucide-react';
+import { Pencil, Trash2, RefreshCw } from 'lucide-react';
 
 declare const window: any;
 
@@ -37,14 +37,14 @@ export default function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const trailCanvasRef = useRef<HTMLCanvasElement>(null);
-  const cameraPanelRef = useRef<HTMLDivElement>(null);
 
   const [isTracking, setIsTracking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [drawMode, setDrawMode] = useState(false);
   const [noHand, setNoHand] = useState(false);
   const [fingerCount, setFingerCount] = useState<number | string>('—');
-  const [fingerLabel, setFingerLabel] = useState('show both hands');
+  const [fingerLabel, setFingerLabel] = useState('Show hands to start');
+  const [containerDims, setContainerDims] = useState({ width: 1920, height: 1080 });
 
   // UI state for hands
   const [leftUI, setLeftUI] = useState({ count: '—', x: '—', y: '—', bars: [false, false, false, false, false] });
@@ -59,17 +59,32 @@ export default function App() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (cameraPanelRef.current && canvasRef.current && trailCanvasRef.current) {
-        const w = cameraPanelRef.current.clientWidth;
-        const h = cameraPanelRef.current.clientHeight;
-        if (canvasRef.current.width !== w) canvasRef.current.width = w;
-        if (canvasRef.current.height !== h) canvasRef.current.height = h;
-        if (trailCanvasRef.current.width !== w) trailCanvasRef.current.width = w;
-        if (trailCanvasRef.current.height !== h) trailCanvasRef.current.height = h;
+      const winW = window.innerWidth;
+      const winH = window.innerHeight;
+      const aspect = 16 / 9;
+      let w = winW;
+      let h = winW / aspect;
+      if (h < winH) {
+        h = winH;
+        w = winH * aspect;
+      }
+      const finalW = Math.round(w);
+      const finalH = Math.round(h);
+
+      setContainerDims({ width: finalW, height: finalH });
+
+      if (canvasRef.current && canvasRef.current.width !== finalW) {
+        canvasRef.current.width = finalW;
+        canvasRef.current.height = finalH;
+      }
+      if (trailCanvasRef.current && trailCanvasRef.current.width !== finalW) {
+        trailCanvasRef.current.width = finalW;
+        trailCanvasRef.current.height = finalH;
       }
     };
+
     window.addEventListener('resize', handleResize);
-    setTimeout(handleResize, 100);
+    handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -104,8 +119,8 @@ export default function App() {
         const detected = results.multiHandLandmarks && results.multiHandLandmarks.length > 0;
         if (!detected) {
           setNoHand(true);
-          setFingerCount('—');
-          setFingerLabel('show both hands');
+          setFingerCount('0');
+          setFingerLabel('No hands in frame');
           setLeftUI({ count: '—', x: '—', y: '—', bars: [false, false, false, false, false] });
           setRightUI({ count: '—', x: '—', y: '—', bars: [false, false, false, false, false] });
           lastPointsRef.current = { Left: null, Right: null };
@@ -134,11 +149,11 @@ export default function App() {
             grad.addColorStop(0, color.skeleton1);
             grad.addColorStop(1, color.skeleton2);
             ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by);
-            ctx.strokeStyle = grad; ctx.lineWidth = 2.5; ctx.stroke();
+            ctx.strokeStyle = grad; ctx.lineWidth = 3; ctx.stroke();
           });
           lm.forEach((pt: any) => {
-            ctx.beginPath(); ctx.arc(pt.x * w, pt.y * h, 4, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.fill();
+            ctx.beginPath(); ctx.arc(pt.x * w, pt.y * h, 4.5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.fill();
           });
 
           // Count fingers
@@ -164,19 +179,19 @@ export default function App() {
 
           // Draw tip
           const pulse = 0.7 + 0.3 * Math.sin(Date.now() / 200);
-          const grad = ctx.createRadialGradient(tx, ty, 0, tx, ty, 34 * pulse);
+          const grad = ctx.createRadialGradient(tx, ty, 0, tx, ty, 38 * pulse);
           grad.addColorStop(0, color.glow); grad.addColorStop(1, 'rgba(0,0,0,0)');
-          ctx.beginPath(); ctx.arc(tx, ty, 34 * pulse, 0, Math.PI * 2); ctx.fillStyle = grad; ctx.fill();
-          ctx.beginPath(); ctx.arc(tx, ty, 10, 0, Math.PI * 2); ctx.strokeStyle = color.tip; ctx.lineWidth = 2; ctx.stroke();
-          ctx.beginPath(); ctx.arc(tx, ty, 4, 0, Math.PI * 2); ctx.fillStyle = color.tip; ctx.fill();
+          ctx.beginPath(); ctx.arc(tx, ty, 38 * pulse, 0, Math.PI * 2); ctx.fillStyle = grad; ctx.fill();
+          ctx.beginPath(); ctx.arc(tx, ty, 11, 0, Math.PI * 2); ctx.strokeStyle = color.tip; ctx.lineWidth = 2.5; ctx.stroke();
+          ctx.beginPath(); ctx.arc(tx, ty, 5, 0, Math.PI * 2); ctx.fillStyle = color.tip; ctx.fill();
 
           if (drawModeRef.current && states[1]) {
             const lp = lastPointsRef.current[handLabel as keyof typeof lastPointsRef.current];
             if (lp) {
               trailCtx.beginPath(); trailCtx.moveTo(lp.x, lp.y); trailCtx.lineTo(tx, ty);
               const hue = color.trail(Date.now());
-              trailCtx.strokeStyle = hue; trailCtx.lineWidth = 3.5; trailCtx.lineCap = 'round'; trailCtx.lineJoin = 'round';
-              trailCtx.shadowColor = hue; trailCtx.shadowBlur = 14; trailCtx.stroke(); trailCtx.shadowBlur = 0;
+              trailCtx.strokeStyle = hue; trailCtx.lineWidth = 4; trailCtx.lineCap = 'round'; trailCtx.lineJoin = 'round';
+              trailCtx.shadowColor = hue; trailCtx.shadowBlur = 16; trailCtx.stroke(); trailCtx.shadowBlur = 0;
             }
             lastPointsRef.current[handLabel as keyof typeof lastPointsRef.current] = { x: tx, y: ty };
           } else {
@@ -188,7 +203,7 @@ export default function App() {
         if (handsPresent.has('Right')) setRightUI(newRightUI);
 
         setFingerCount(totalCount);
-        const labels = ['✊', '☝️', '✌️', '🤟', '🤘', '🖐', '6', '7', '8', '9', '🙌'];
+        const labels = ['✊ Fist', '☝️ 1 Finger', '✌️ 2 Fingers', '🤟 3 Fingers', '4 Fingers', '🖐 5 Fingers', '6 Fingers', '7 Fingers', '8 Fingers', '9 Fingers', '🙌 10 Fingers'];
         setFingerLabel(totalCount <= 10 ? (labels[totalCount] || totalCount + ' fingers') : totalCount + ' fingers');
       });
 
@@ -217,7 +232,7 @@ export default function App() {
     } catch (err) {
       console.error(err);
       setIsLoading(false);
-      alert('Could not access camera. Please allow permissions and try again.');
+      alert('Could not access camera. Please allow camera permissions and try again.');
     }
   };
 
@@ -237,123 +252,182 @@ export default function App() {
     if (canvasRef.current) canvasRef.current.getContext('2d')?.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
     clearCanvas();
     setFingerCount('—');
-    setFingerLabel('show both hands');
+    setFingerLabel('Show hands to start');
     setLeftUI({ count: '—', x: '—', y: '—', bars: [false, false, false, false, false] });
     setRightUI({ count: '—', x: '—', y: '—', bars: [false, false, false, false, false] });
   };
 
   return (
     <>
-      <div className="blob2"></div>
-
-      <header>
-        <div className="logo">
-          <div className="logo-icon">✋</div>
-          <div className="logo-text">Finger<span>Vision</span></div>
+      {/* Full-Screen Camera & HUD Overlay Viewport */}
+      <div className="viewport-bg">
+        {/* Cover Video + Canvases */}
+        <div 
+          className="camera-container" 
+          style={{ width: `${containerDims.width}px`, height: `${containerDims.height}px` }}
+        >
+          <video ref={videoRef} playsInline autoPlay muted />
+          <canvas ref={trailCanvasRef} />
+          <canvas ref={canvasRef} />
         </div>
-        <div className={`status-badge ${isTracking ? 'active' : ''}`}>
-          <div className="status-dot"></div>
-          <span>{isTracking ? 'Tracking' : 'Standby'}</span>
+
+        {/* HUD grid & vignette */}
+        <div className="hud-grid-overlay" />
+        <div className="hud-vignette" />
+
+        {/* Viewport corner HUD brackets */}
+        <div className="hud-corner hud-corner-tl" />
+        <div className="hud-corner hud-corner-tr" />
+        <div className="hud-corner hud-corner-bl" />
+        <div className="hud-corner hud-corner-br" />
+      </div>
+
+      {/* Floating HUD Header Bar */}
+      <header className="hud-header">
+        <div className="hud-header-left">
+          <div className="logo-card">
+            <div className="logo-icon">✋</div>
+            <div className="logo-text">Finger<span>Vision</span></div>
+          </div>
+          <div className={`status-badge ${isTracking ? 'active' : ''}`}>
+            <div className="status-dot" />
+            <span>{isTracking ? 'HUD Tracking Active' : 'Standby Mode'}</span>
+          </div>
+        </div>
+
+        <div className="hud-header-right">
+          {isTracking && (
+            <div className="hud-summary-pill">
+              <span>Extended:</span>
+              <strong>{fingerCount}</strong>
+              <span style={{ color: 'var(--muted)' }}>({fingerLabel})</span>
+            </div>
+          )}
         </div>
       </header>
 
-      <main>
-        <div className="left-column" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {/* Camera Panel */}
-          <div className="camera-panel" ref={cameraPanelRef}>
-            <div className="corner corner-tl"></div>
-            <div className="corner corner-tr"></div>
-            <div className="corner corner-bl"></div>
-            <div className="corner corner-br"></div>
-
-            <video ref={videoRef} playsInline autoPlay muted style={{ display: 'none' }}></video>
-            <canvas ref={trailCanvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', transform: 'scaleX(-1)', zIndex: 3, pointerEvents: 'none' }}></canvas>
-            <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', transform: 'scaleX(-1)', zIndex: 2 }}></canvas>
-
-            <div className={`draw-indicator ${drawMode ? 'active' : ''}`}>✏ Draw Mode</div>
-            <div className={`no-hand ${noHand ? 'show' : ''}`}>No hand detected</div>
-
-            {!isTracking && !isLoading && (
-              <div id="splash" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', zIndex: 10, background: 'rgba(5,8,16,0.9)', backdropFilter: 'blur(8px)' }}>
-                <div className="splash-icon" style={{ fontSize: '60px', filter: 'drop-shadow(0 0 20px rgba(0,245,196,0.5))', animation: 'float 3s ease infinite' }}>🖐</div>
-                <div className="splash-title" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: '1.6rem', color: 'var(--text)' }}>Real-time Hand Tracking</div>
-                <div className="splash-sub" style={{ fontSize: '0.75rem', color: 'var(--muted)', textAlign: 'center', maxWidth: '300px', lineHeight: 1.7 }}>Show your hand to the camera to detect fingers, track movement, and draw in the air.</div>
-                <button className="btn-start" onClick={initTracking}>Initialise Camera</button>
-              </div>
-            )}
-
-            {isLoading && (
-              <div id="loading" className="show" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', zIndex: 9, background: 'rgba(5,8,16,0.9)' }}>
-                <div className="spinner"></div>
-                <div className="loading-text">Loading MediaPipe...</div>
-              </div>
-            )}
+      {/* Floating Right HUD Sidebar overlaying camera */}
+      <div className="hud-sidebar">
+        <GlowCard customSize className="card" glowColor="green">
+          <div className="card-label">
+            <span>Extended Fingers</span>
+            <span style={{ color: 'var(--accent)' }}>LIVE COUNT</span>
           </div>
+          <div className="finger-count">{fingerCount}</div>
+          <div className="finger-label">{fingerLabel}</div>
+        </GlowCard>
 
-          {/* Controls wrapped in GlowCard */}
-          <GlowCard customSize className="card" glowColor="blue">
-            <div className="card-label">Controls</div>
-            <div className="controls" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px' }}>
-              <button className={`btn-control ${drawMode ? 'active' : ''}`} disabled={!isTracking} onClick={() => setDrawMode(!drawMode)}>
-                <Pencil size={18} /> {drawMode ? 'Disable Draw Mode' : 'Enable Draw Mode'}
-              </button>
-              <button className="btn-control" disabled={!isTracking} onClick={clearCanvas}>
-                <Trash2 size={18} /> Clear Canvas
-              </button>
-              <button className="btn-control" onClick={restartCamera}>
-                <RefreshCw size={18} /> Restart Camera
-              </button>
-            </div>
-          </GlowCard>
-        </div>
-
-        {/* Sidebar */}
-        <div className="sidebar">
-          <GlowCard customSize className="card" glowColor="green">
-            <div className="card-label">Total Fingers Extended</div>
-            <div className="finger-count">{fingerCount}</div>
-            <div className="finger-label">{fingerLabel}</div>
-          </GlowCard>
-
-          <GlowCard customSize className="card hand-card" glowColor="purple">
-            <div className="card-label" style={{ color: 'var(--accent)' }}>🫲 Left Hand</div>
-            <div className="hand-count-row">
-              <div className="hand-mini-count">{leftUI.count}</div>
-              <div className="coord-grid-small">
-                <div className="coord-item-sm"><div className="coord-axis" style={{ color: 'var(--accent)' }}>X</div><div className="coord-value-sm">{leftUI.x}</div></div>
-                <div className="coord-item-sm"><div className="coord-axis" style={{ color: 'var(--accent)' }}>Y</div><div className="coord-value-sm">{leftUI.y}</div></div>
+        <GlowCard customSize className="card" glowColor="purple">
+          <div className="card-label">
+            <span style={{ color: 'var(--accent)' }}>🫲 Left Hand</span>
+            <span>{leftUI.count !== '—' ? 'DETECTED' : 'OFFLINE'}</span>
+          </div>
+          <div className="hand-count-row">
+            <div className="hand-mini-count">{leftUI.count}</div>
+            <div className="coord-grid-small">
+              <div className="coord-item-sm">
+                <div className="coord-axis" style={{ color: 'var(--accent)' }}>POS X</div>
+                <div className="coord-value-sm">{leftUI.x}</div>
+              </div>
+              <div className="coord-item-sm">
+                <div className="coord-axis" style={{ color: 'var(--accent)' }}>POS Y</div>
+                <div className="coord-value-sm">{leftUI.y}</div>
               </div>
             </div>
-            <div className="finger-states">
-              {['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'].map((f, i) => (
-                <div key={f} className="finger-pip">
-                  <div className={`finger-bar ${leftUI.bars[i] ? 'up' : ''}`}></div>
-                  <div className="finger-name">{f}</div>
-                </div>
-              ))}
-            </div>
-          </GlowCard>
+          </div>
+          <div className="finger-states">
+            {['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'].map((f, i) => (
+              <div key={f} className="finger-pip">
+                <div className={`finger-bar ${leftUI.bars[i] ? 'up' : ''}`} />
+                <div className="finger-name">{f}</div>
+              </div>
+            ))}
+          </div>
+        </GlowCard>
 
-          <GlowCard customSize className="card hand-card" glowColor="red">
-            <div className="card-label" style={{ color: 'var(--accent2)' }}>🫱 Right Hand</div>
-            <div className="hand-count-row">
-              <div className="hand-mini-count" style={{ color: 'var(--accent2)', textShadow: '0 0 20px var(--glow2)' }}>{rightUI.count}</div>
-              <div className="coord-grid-small">
-                <div className="coord-item-sm"><div className="coord-axis" style={{ color: 'var(--accent2)' }}>X</div><div className="coord-value-sm">{rightUI.x}</div></div>
-                <div className="coord-item-sm"><div className="coord-axis" style={{ color: 'var(--accent2)' }}>Y</div><div className="coord-value-sm">{rightUI.y}</div></div>
+        <GlowCard customSize className="card" glowColor="red">
+          <div className="card-label">
+            <span style={{ color: 'var(--accent2)' }}>🫱 Right Hand</span>
+            <span>{rightUI.count !== '—' ? 'DETECTED' : 'OFFLINE'}</span>
+          </div>
+          <div className="hand-count-row">
+            <div className="hand-mini-count" style={{ color: 'var(--accent2)', textShadow: '0 0 20px var(--glow2)' }}>{rightUI.count}</div>
+            <div className="coord-grid-small">
+              <div className="coord-item-sm">
+                <div className="coord-axis" style={{ color: 'var(--accent2)' }}>POS X</div>
+                <div className="coord-value-sm">{rightUI.x}</div>
+              </div>
+              <div className="coord-item-sm">
+                <div className="coord-axis" style={{ color: 'var(--accent2)' }}>POS Y</div>
+                <div className="coord-value-sm">{rightUI.y}</div>
               </div>
             </div>
-            <div className="finger-states">
-              {['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'].map((f, i) => (
-                <div key={f} className="finger-pip">
-                  <div className={`finger-bar right-bar ${rightUI.bars[i] ? 'up' : ''}`}></div>
-                  <div className="finger-name">{f}</div>
-                </div>
-              ))}
-            </div>
-          </GlowCard>
+          </div>
+          <div className="finger-states">
+            {['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'].map((f, i) => (
+              <div key={f} className="finger-pip">
+                <div className={`finger-bar right-bar ${rightUI.bars[i] ? 'up' : ''}`} />
+                <div className="finger-name">{f}</div>
+              </div>
+            ))}
+          </div>
+        </GlowCard>
+      </div>
+
+      {/* Draw Mode Alert Pill */}
+      <div className={`hud-alert-pill ${drawMode ? 'show' : ''}`}>
+        ✏ Air Draw Mode Active — Raise Index Finger to Sketch
+      </div>
+
+      {/* No Hand Alert Pill */}
+      <div className={`hud-nohand-pill ${isTracking && noHand ? 'show' : ''}`}>
+        Waiting for hands in frame...
+      </div>
+
+      {/* Floating Bottom HUD Dock Controls */}
+      <div className="hud-dock">
+        <button
+          className={`btn-dock ${drawMode ? 'active' : ''}`}
+          disabled={!isTracking}
+          onClick={() => setDrawMode(!drawMode)}
+        >
+          <Pencil size={16} />
+          <span>{drawMode ? 'Drawing Enabled' : 'Air Draw'}</span>
+        </button>
+
+        <button className="btn-dock" disabled={!isTracking} onClick={clearCanvas}>
+          <Trash2 size={16} />
+          <span>Clear Trail</span>
+        </button>
+
+        <button className="btn-dock" onClick={restartCamera}>
+          <RefreshCw size={16} />
+          <span>{isTracking ? 'Stop Camera' : 'Reset'}</span>
+        </button>
+      </div>
+
+      {/* Splash Screen Overlay */}
+      {!isTracking && !isLoading && (
+        <div id="splash">
+          <div className="splash-icon">🖐</div>
+          <div className="splash-title">Real-Time HUD Hand Tracking</div>
+          <div className="splash-sub">
+            Full-screen camera overlay interface with MediaPipe hand landmark detection, 3D finger tracking, and air sketching.
+          </div>
+          <button className="btn-start" onClick={initTracking}>
+            Initialize HUD Camera
+          </button>
         </div>
-      </main>
+      )}
+
+      {/* Loading State Overlay */}
+      {isLoading && (
+        <div id="loading" className="show">
+          <div className="spinner" />
+          <div className="loading-text">Initializing MediaPipe Neural Models...</div>
+        </div>
+      )}
     </>
   );
 }
+
