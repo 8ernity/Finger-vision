@@ -20,8 +20,16 @@
   },
   "homepage": "https://github.com/8ernity/Finger-vision#readme",
   "devDependencies": {
+    "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "autoprefixer": "^10.5.2",
+    "browserslist": "^4.28.6",
+    "caniuse-lite": "^1.0.30001805",
+    "postcss": "^8.5.19",
+    "tailwindcss": "^4.3.2",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^6.0.3",
     "vite": "^8.0.16"
   },
