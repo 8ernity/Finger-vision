@@ -39,12 +39,6 @@ export default function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const trailCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  const headerRef = useLiquidGlass<HTMLElement>(true, { scale: -150 });
-  const dockRef = useLiquidGlass<HTMLDivElement>(true, { scale: -150 });
-  const alertPillRef = useLiquidGlass<HTMLDivElement>(true, { scale: -120 });
-  const noHandPillRef = useLiquidGlass<HTMLDivElement>(true, { scale: -120 });
-  const splashRef = useLiquidGlass<HTMLDivElement>(true, { scale: -160, blur: 4 });
-
   const [isTracking, setIsTracking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [drawMode, setDrawMode] = useState(false);
@@ -56,6 +50,13 @@ export default function App() {
   // UI state for hands
   const [leftUI, setLeftUI] = useState({ count: '—', x: '—', y: '—', bars: [false, false, false, false, false] });
   const [rightUI, setRightUI] = useState({ count: '—', x: '—', y: '—', bars: [false, false, false, false, false] });
+
+  const logoCardRef = useLiquidGlass<HTMLDivElement>(true, { scale: -120 });
+  const statusBadgeRef = useLiquidGlass<HTMLDivElement>(true, { scale: -120 });
+  const summaryPillRef = useLiquidGlass<HTMLDivElement>(isTracking, { scale: -120 });
+  const dockRef = useLiquidGlass<HTMLDivElement>(true, { scale: -150 });
+  const alertPillRef = useLiquidGlass<HTMLDivElement>(true, { scale: -120 });
+  const noHandPillRef = useLiquidGlass<HTMLDivElement>(true, { scale: -120 });
 
   const handsRef = useRef<any>(null);
   const cameraRef = useRef<any>(null);
@@ -290,13 +291,13 @@ export default function App() {
       </div>
 
       {/* Floating HUD Header Bar */}
-      <header ref={headerRef} className="hud-header">
+      <header className="hud-header">
         <div className="hud-header-left">
-          <div className="logo-card">
+          <div className="logo-card" ref={logoCardRef}>
             <div className="logo-icon">✋</div>
             <div className="logo-text">Finger<span>Vision</span></div>
           </div>
-          <div className={`status-badge ${isTracking ? 'active' : ''}`}>
+          <div className={`status-badge ${isTracking ? 'active' : ''}`} ref={statusBadgeRef}>
             <div className="status-dot" />
             <span>{isTracking ? 'HUD Tracking Active' : 'Standby Mode'}</span>
           </div>
@@ -304,7 +305,7 @@ export default function App() {
 
         <div className="hud-header-right">
           {isTracking && (
-            <div className="hud-summary-pill">
+            <div className="hud-summary-pill" ref={summaryPillRef}>
               <span>Extended:</span>
               <strong>{fingerCount}</strong>
               <span style={{ color: 'var(--muted)' }}>({fingerLabel})</span>
@@ -415,7 +416,7 @@ export default function App() {
 
       {/* Splash Screen Overlay */}
       {!isTracking && !isLoading && (
-        <div id="splash" ref={splashRef}>
+        <div id="splash">
           <div className="splash-icon">🖐</div>
           <div className="splash-title">Real-Time HUD Hand Tracking</div>
           <div className="splash-sub">
