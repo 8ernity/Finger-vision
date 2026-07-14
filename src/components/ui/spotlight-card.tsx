@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, ReactNode } from 'react';
+import { liquidGlass, LiquidGlassOptions } from '../../lib/liquid-glass';
 
 interface GlowCardProps {
   children: ReactNode;
@@ -8,6 +9,8 @@ interface GlowCardProps {
   width?: string | number;
   height?: string | number;
   customSize?: boolean; // When true, ignores size prop and uses width/height or className
+  liquidGlassEnabled?: boolean;
+  liquidGlassOptions?: LiquidGlassOptions;
 }
 
 const glowColorMap = {
@@ -31,10 +34,28 @@ const GlowCard: React.FC<GlowCardProps> = ({
   size = 'md',
   width,
   height,
-  customSize = false
+  customSize = false,
+  liquidGlassEnabled = true,
+  liquidGlassOptions = {}
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (liquidGlassEnabled && cardRef.current) {
+      const glass = liquidGlass(cardRef.current, {
+        scale: -150,
+        chroma: 10,
+        mapBlur: 24,
+        blur: 0,
+        saturate: 1.8,
+        ...liquidGlassOptions
+      });
+      return () => {
+        if (glass && glass.destroy) glass.destroy();
+      };
+    }
+  }, [liquidGlassEnabled, JSON.stringify(liquidGlassOptions)]);
 
   useEffect(() => {
     const syncPointer = (e: PointerEvent) => {
@@ -66,10 +87,10 @@ const GlowCard: React.FC<GlowCardProps> = ({
     const baseStyles: any = {
       '--base': base,
       '--spread': spread,
-      '--radius': '14',
-      '--border': '3',
-      '--backdrop': 'hsl(0 0% 60% / 0.12)',
-      '--backup-border': 'var(--backdrop)',
+      '--radius': '16',
+      '--border': '2',
+      '--backdrop': liquidGlassEnabled ? 'rgba(255, 255, 255, 0.04)' : 'hsl(0 0% 60% / 0.12)',
+      '--backup-border': liquidGlassEnabled ? 'rgba(255, 255, 255, 0.15)' : 'var(--backdrop)',
       '--size': '200',
       '--outer': '1',
       '--border-size': 'calc(var(--border, 2) * 1px)',

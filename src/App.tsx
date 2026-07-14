@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GlowCard } from './components/ui/spotlight-card';
 import { Pencil, Trash2, RefreshCw } from 'lucide-react';
+import { useLiquidGlass } from './hooks/useLiquidGlass';
 
 declare const window: any;
 
@@ -37,6 +38,12 @@ export default function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const trailCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  const headerRef = useLiquidGlass<HTMLElement>(true, { scale: -150 });
+  const dockRef = useLiquidGlass<HTMLDivElement>(true, { scale: -150 });
+  const alertPillRef = useLiquidGlass<HTMLDivElement>(true, { scale: -120 });
+  const noHandPillRef = useLiquidGlass<HTMLDivElement>(true, { scale: -120 });
+  const splashRef = useLiquidGlass<HTMLDivElement>(true, { scale: -160, blur: 4 });
 
   const [isTracking, setIsTracking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -283,7 +290,7 @@ export default function App() {
       </div>
 
       {/* Floating HUD Header Bar */}
-      <header className="hud-header">
+      <header ref={headerRef} className="hud-header">
         <div className="hud-header-left">
           <div className="logo-card">
             <div className="logo-icon">✋</div>
@@ -375,17 +382,17 @@ export default function App() {
       </div>
 
       {/* Draw Mode Alert Pill */}
-      <div className={`hud-alert-pill ${drawMode ? 'show' : ''}`}>
+      <div ref={alertPillRef} className={`hud-alert-pill ${drawMode ? 'show' : ''}`}>
         ✏ Air Draw Mode Active — Raise Index Finger to Sketch
       </div>
 
       {/* No Hand Alert Pill */}
-      <div className={`hud-nohand-pill ${isTracking && noHand ? 'show' : ''}`}>
+      <div ref={noHandPillRef} className={`hud-nohand-pill ${isTracking && noHand ? 'show' : ''}`}>
         Waiting for hands in frame...
       </div>
 
       {/* Floating Bottom HUD Dock Controls */}
-      <div className="hud-dock">
+      <div ref={dockRef} className="hud-dock">
         <button
           className={`btn-dock ${drawMode ? 'active' : ''}`}
           disabled={!isTracking}
@@ -408,7 +415,7 @@ export default function App() {
 
       {/* Splash Screen Overlay */}
       {!isTracking && !isLoading && (
-        <div id="splash">
+        <div id="splash" ref={splashRef}>
           <div className="splash-icon">🖐</div>
           <div className="splash-title">Real-Time HUD Hand Tracking</div>
           <div className="splash-sub">
