@@ -120,10 +120,16 @@
     gap: 12px;
     padding: 8px 18px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top-color: rgba(255, 255, 255, 0.45);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(14px);
     border-radius: 100px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 
+      0 10px 28px rgba(0, 0, 0, 0.55), 
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.75), 
+      inset 0 -1.5px 2px rgba(0, 0, 0, 0.5), 
+      inset 1.5px 0 2px rgba(255, 255, 255, 0.35);
   }
 
   .logo-icon {
@@ -150,7 +156,9 @@
     gap: 8px;
     padding: 8px 16px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top-color: rgba(255, 255, 255, 0.42);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(14px);
     border-radius: 100px;
     font-size: 0.7rem;
@@ -158,13 +166,22 @@
     text-transform: uppercase;
     color: var(--muted);
     transition: all 0.3s;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.5), 
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.65), 
+      inset 0 -1.5px 2px rgba(0, 0, 0, 0.45), 
+      inset 1px 0 2px rgba(255, 255, 255, 0.3);
   }
 
   .status-badge.active {
-    border-color: var(--accent);
+    border-color: rgba(0, 245, 196, 0.45);
+    border-top-color: rgba(0, 245, 196, 0.75);
     color: var(--accent);
-    box-shadow: 0 0 16px rgba(0,245,196,0.2), 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 
+      0 0 22px rgba(0, 245, 196, 0.35), 
+      0 8px 24px rgba(0, 0, 0, 0.5), 
+      inset 0 1.5px 2px rgba(0, 245, 196, 0.8), 
+      inset 0 -1.5px 2px rgba(0, 0, 0, 0.45);
   }
 
   .status-dot {
@@ -192,12 +209,17 @@
     gap: 10px;
     padding: 8px 18px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(0, 245, 196, 0.3);
+    border: 1px solid rgba(0, 245, 196, 0.35);
+    border-top-color: rgba(0, 245, 196, 0.65);
     backdrop-filter: blur(14px);
     border-radius: 100px;
     font-size: 0.75rem;
     color: var(--text);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.5), 
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.7), 
+      inset 0 -1.5px 2px rgba(0, 0, 0, 0.45), 
+      inset 1.5px 0 2px rgba(0, 245, 196, 0.45);
   }
 
   .hud-summary-pill strong {
@@ -232,18 +254,34 @@
 
   .card {
     background: var(--backdrop, rgba(255, 255, 255, 0.04));
-    border: var(--border-size, 1px) solid var(--backup-border, rgba(255, 255, 255, 0.15));
+    border: var(--border-size, 1.5px) solid var(--backup-border, rgba(255, 255, 255, 0.22));
+    border-top-color: rgba(255, 255, 255, 0.45);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
     border-radius: 16px;
     padding: 18px;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(16px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    box-shadow: 
+      0 16px 40px -8px rgba(0, 0, 0, 0.65), 
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.75), 
+      inset 0 -1.5px 2px rgba(0, 0, 0, 0.55), 
+      inset 1.5px 0 2px rgba(255, 255, 255, 0.4), 
+      inset -1.5px 0 2px rgba(255, 255, 255, 0.18);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .card:hover {
-    border-color: rgba(0, 245, 196, 0.4);
+    border-color: rgba(0, 245, 196, 0.55);
+    border-top-color: rgba(0, 245, 196, 0.85);
+    box-shadow: 
+      0 20px 48px -6px rgba(0, 0, 0, 0.75), 
+      inset 0 1.5px 2px rgba(0, 245, 196, 0.8), 
+      inset 0 -1.5px 2px rgba(0, 0, 0, 0.55), 
+      inset 1.5px 0 2px rgba(255, 255, 255, 0.45), 
+      inset -1.5px 0 2px rgba(0, 245, 196, 0.3),
+      0 0 25px rgba(0, 245, 196, 0.18);
+    transform: translateY(-2px);
   }
 
   .card-label {
@@ -378,11 +416,18 @@
     align-items: center;
     gap: 10px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(0, 245, 196, 0.3);
+    border: 1px solid rgba(0, 245, 196, 0.35);
+    border-top-color: rgba(0, 245, 196, 0.65);
+    border-bottom-color: rgba(0, 245, 196, 0.15);
     backdrop-filter: blur(16px);
     padding: 8px 12px;
     border-radius: 100px;
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 245, 196, 0.08);
+    box-shadow: 
+      0 16px 44px rgba(0, 0, 0, 0.65), 
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.75), 
+      inset 0 -1.5px 2px rgba(0, 0, 0, 0.55), 
+      inset 1.5px 0 2px rgba(255, 255, 255, 0.35), 
+      0 0 25px rgba(0, 245, 196, 0.15);
   }
 
   .btn-dock {
@@ -401,15 +446,21 @@
   }
 
   .btn-dock:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    border-top-color: rgba(255, 255, 255, 0.45);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.45), inset 0 -1px 1px rgba(0, 0, 0, 0.35);
   }
 
   .btn-dock.active {
-    background: rgba(255, 61, 110, 0.15);
+    background: rgba(255, 61, 110, 0.18);
     border-color: var(--accent2);
+    border-top-color: rgba(255, 180, 200, 0.85);
     color: var(--accent2);
-    box-shadow: 0 0 16px rgba(255, 61, 110, 0.3);
+    box-shadow: 
+      0 0 20px rgba(255, 61, 110, 0.4), 
+      inset 0 1.5px 2px rgba(255, 180, 200, 0.75), 
+      inset 0 -1px 1px rgba(0, 0, 0, 0.4);
   }
 
   .btn-dock:disabled {
@@ -426,14 +477,19 @@
     z-index: 20;
     padding: 8px 20px;
     background: rgba(255, 61, 110, 0.2);
-    border: 1px solid var(--accent2);
+    border: 1px solid rgba(255, 61, 110, 0.55);
+    border-top-color: rgba(255, 180, 200, 0.85);
     backdrop-filter: blur(12px);
     border-radius: 100px;
     font-size: 0.72rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text);
-    box-shadow: 0 0 20px rgba(255, 61, 110, 0.3);
+    box-shadow: 
+      0 10px 28px rgba(0, 0, 0, 0.5), 
+      0 0 22px rgba(255, 61, 110, 0.35), 
+      inset 0 1.5px 2px rgba(255, 180, 200, 0.75), 
+      inset 0 -1.5px 2px rgba(0, 0, 0, 0.45);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -452,13 +508,20 @@
     z-index: 20;
     padding: 8px 20px;
     background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top-color: rgba(255, 255, 255, 0.45);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(12px);
     border-radius: 100px;
     font-size: 0.7rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
+    box-shadow: 
+      0 10px 28px rgba(0, 0, 0, 0.55), 
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.7), 
+      inset 0 -1.5px 2px rgba(0, 0, 0, 0.45),
+      inset 1.5px 0 2px rgba(255, 255, 255, 0.35);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -479,6 +542,8 @@
     gap: 22px;
     z-index: 50;
     background: rgba(5, 8, 16, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), inset 0 -1px 2px rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(16px);
     transition: opacity 0.5s ease;
   }
@@ -515,8 +580,9 @@
   .btn-start {
     margin-top: 8px;
     padding: 16px 44px;
-    background: rgba(0, 245, 196, 0.1);
-    border: 1px solid var(--accent);
+    background: rgba(0, 245, 196, 0.12);
+    border: 1px solid rgba(0, 245, 196, 0.45);
+    border-top-color: rgba(0, 245, 196, 0.85);
     color: var(--accent);
     font-family: 'Space Mono', monospace;
     font-size: 0.85rem;
@@ -526,7 +592,10 @@
     border-radius: 100px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 0 25px rgba(0, 245, 196, 0.25);
+    box-shadow: 
+      0 0 30px rgba(0, 245, 196, 0.3), 
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.65), 
+      inset 0 -1.5px 2px rgba(0, 0, 0, 0.5);
   }
 
   .btn-start:hover {

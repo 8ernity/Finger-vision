@@ -88,9 +88,9 @@ const GlowCard: React.FC<GlowCardProps> = ({
       '--base': base,
       '--spread': spread,
       '--radius': '16',
-      '--border': '2',
+      '--border': liquidGlassEnabled ? '1.5' : '2',
       '--backdrop': liquidGlassEnabled ? 'rgba(255, 255, 255, 0.04)' : 'hsl(0 0% 60% / 0.12)',
-      '--backup-border': liquidGlassEnabled ? 'rgba(255, 255, 255, 0.15)' : 'var(--backdrop)',
+      '--backup-border': liquidGlassEnabled ? 'rgba(255, 255, 255, 0.25)' : 'var(--backdrop)',
       '--size': '200',
       '--outer': '1',
       '--border-size': 'calc(var(--border, 2) * 1px)',
@@ -107,6 +107,9 @@ const GlowCard: React.FC<GlowCardProps> = ({
       backgroundPosition: '50% 50%',
       backgroundAttachment: 'fixed',
       border: 'var(--border-size) solid var(--backup-border)',
+      boxShadow: liquidGlassEnabled
+        ? '0 18px 45px -10px rgba(0, 0, 0, 0.7), inset 0 1.5px 2px rgba(255, 255, 255, 0.75), inset 0 -1.5px 2px rgba(0, 0, 0, 0.55), inset 1.5px 0 2px rgba(255, 255, 255, 0.4), inset -1.5px 0 2px rgba(255, 255, 255, 0.18)'
+        : undefined,
       position: 'relative',
       touchAction: 'none',
     };
