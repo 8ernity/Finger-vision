@@ -156,13 +156,11 @@ export interface LiquidGlassOptions {
 export function liquidGlass(el: HTMLElement, opts?: LiquidGlassOptions) {
   const o = Object.assign(
     { scale: -150, chroma: 10, border: 0.07, mapBlur: 24,
-      blur: 0, saturate: 1.8, radius: null, fallbackBlur: 16, videoSafe: true },
+      blur: 0, saturate: 1.8, radius: null, fallbackBlur: 16 },
     opts
   );
 
-  const hasVideo = typeof document !== 'undefined' && o.videoSafe !== false && !!document.querySelector('video');
-
-  if (!supported || typeof document === 'undefined' || hasVideo) {
+  if (!supported || typeof document === 'undefined') {
     const frosted = "blur(" + (o.fallbackBlur || 16) + "px) saturate(" + o.saturate + ") brightness(1.05)";
     el.style.backdropFilter = frosted;
     (el.style as any).webkitBackdropFilter = frosted;

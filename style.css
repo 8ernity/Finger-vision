@@ -53,12 +53,24 @@
     z-index: 1;
   }
 
-  .camera-container canvas {
+  .camera-container canvas.trail-canvas {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     transform: scaleX(-1);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .camera-container canvas.landmark-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: scaleX(-1);
+    z-index: 3;
+    pointer-events: none;
   }
 
   /* Scanline / subtle HUD grid overlay on camera */

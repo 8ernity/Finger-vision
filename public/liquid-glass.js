@@ -176,14 +176,12 @@
   function liquidGlass(el, opts) {
     const o = Object.assign(
       { scale: -112, chroma: 6, border: 0.07, mapBlur: 12,
-        blur: 3, saturate: 1.5, radius: null, fallbackBlur: 16, videoSafe: true },
+        blur: 3, saturate: 1.5, radius: null, fallbackBlur: 16 },
       opts
     );
 
-    const hasVideo = typeof document !== 'undefined' && o.videoSafe !== false && !!document.querySelector('video');
-
-    if (!supported || hasVideo) {
-      const frosted = "blur(" + (o.fallbackBlur || 16) + "px) saturate(" + o.saturate + ") brightness(1.05)";
+    if (!supported) {
+      const frosted = "blur(" + o.fallbackBlur + "px) saturate(" + o.saturate + ")";
       el.style.backdropFilter = frosted;
       el.style.webkitBackdropFilter = frosted;
       el.classList.add("lg-fallback");

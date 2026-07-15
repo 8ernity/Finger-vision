@@ -275,8 +275,8 @@ export default function App() {
           style={{ width: `${containerDims.width}px`, height: `${containerDims.height}px` }}
         >
           <video ref={videoRef} playsInline autoPlay muted />
-          <canvas ref={trailCanvasRef} />
-          <canvas ref={canvasRef} />
+          <canvas ref={trailCanvasRef} className="trail-canvas" />
+          <canvas ref={canvasRef} className="landmark-canvas" />
         </div>
 
         {/* HUD grid & vignette */}
